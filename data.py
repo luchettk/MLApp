@@ -8,7 +8,11 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 
 st.title("Time Series Model Comparisons")
 
-tick_data = pd.read_csv("weekly_lyme_disease_cases.csv")
+@st.cache_resource
+def load_data():
+    return pd.read_csv("weekly_lyme_disease_cases.csv")
+
+tick_data = load_data()
 tick_data['Date'] = pd.to_datetime(tick_data['Year'].astype(str) + tick_data['MMWR Week'].astype(str) + '0', format='%Y%U%w')
 tick_data = tick_data.drop(columns = ["Year"])
 lyme_disease = tick_data.drop(columns = ["MMWR Week"])
